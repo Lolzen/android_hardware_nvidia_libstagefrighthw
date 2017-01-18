@@ -49,9 +49,6 @@ NVOMXPlugin::NVOMXPlugin()
         mGetHandle = (GetHandleFunc)dlsym(mLibHandle, "OMX_GetHandle");
         mFreeHandle = (FreeHandleFunc)dlsym(mLibHandle, "OMX_FreeHandle");
 
-#ifdef BUILD_GOOGLETV
-        mSetupTunnel = (SetupTunnelFunc)dlsym(mLibHandle, "OMX_SetupTunnel");
-#endif
         mGetRolesOfComponentHandle =
             (GetRolesOfComponentFunc)dlsym(
                     mLibHandle, "OMX_GetRolesOfComponent");
@@ -168,21 +165,6 @@ OMX_ERRORTYPE NVOMXPlugin::getRolesOfComponent(
 
     return OMX_ErrorNone;
 }
-
-#ifdef BUILD_GOOGLETV
-OMX_ERRORTYPE NVOMXPlugin::setupTunnel(
-            OMX_COMPONENTTYPE *outputComponent,
-            OMX_U32 outputPortIndex,
-            OMX_COMPONENTTYPE *inputComponent,
-            OMX_U32 inputPortIndex) {
-    if (mLibHandle == NULL) {
-        return OMX_ErrorUndefined;
-    }
-
-    return (*mSetupTunnel)(outputComponent, outputPortIndex,
-                           inputComponent, inputPortIndex);
-}
-#endif
 
 }  // namespace android
 
